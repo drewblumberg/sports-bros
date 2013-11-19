@@ -1,0 +1,39 @@
+#color-bar {
+  padding: 5px;
+  background-color: @primary-color;
+
+  h2 {
+    font-family: @header-font;
+    margin: 0;
+    a {
+      color: white;
+    }
+  }
+
+  #auth {
+    list-style: none;
+
+    li {
+      float: left;
+      margin-top: 5px;
+
+      &:first-child {
+        padding-right: 20px;
+        border-right: 1px solid white;
+      }
+
+      &:last-child {
+        padding-left: 20px;
+      }
+      a {
+        text-decoration: none;
+        text-transform: uppercase;
+        color: white;
+        font-size: 25px;
+        &:hover {
+          color: @link-color;
+        }
+      }
+    }
+  }
+}

@@ -8,6 +8,6 @@
  * GET /
  */
 
-exports.index = function(req, res){
-  res.render('home/index', {title: 'Sports Bros'});
+exports.new = function(req, res){
+  res.render('users/new', {title: 'Sports Bros | New User'});
 };
