@@ -1,0 +1,15 @@
+include ../mixins/form-helper
+
+#myModal.reveal-modal.small
+  form#loginUser(action='/login', method='post')
+    .row
+      .large-12.columns
+        img#modalLogo(src='http://roundabout.io/assets/logo-circle.small-54d8fecb829f4071cae7a47475a54608.png')
+    .row
+      mixin field('large-12', 'text', 'email', 'Email')
+    .row
+      mixin field('large-12', 'password', 'password', 'Password')
+    .row
+      .large-offset-8.large-4.columns
+        button#loginBtn(value = "submit").button.radius.expand Log In
+  a.close-reveal-modal &#215;

@@ -1,6 +1,19 @@
 extends ../template/layout
+include ../mixins/form-helper
 
 block content
   .row
-    .large-12.columns
-      p Create a new user here
+    .large-offset-3.large-6.columns
+      h1 New User Signup
+      form#newUser(action='/users/new', method='post')
+        .row
+          mixin field('large-12', 'text', 'name', 'Name', null, null, true)
+        .row
+          mixin field('large-12', 'text', 'email', 'Email')
+        .row
+          mixin field('large-12', 'password', 'password', 'Password')
+        .row
+          mixin field('large-12', 'password', 'passwordconfirmation', 'Password Confirmation')
+        .row
+          .large-offset-8.large-4.columns
+            button#register(value = "submit", disabled = true).button.success.radius.expand.inactive Sign Up

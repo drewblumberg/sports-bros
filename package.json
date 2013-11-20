@@ -17,6 +17,7 @@
     "request": "*",
     "connect-redis": "*",
     "require-dir": "*",
-    "bcrypt": "*"
+    "bcrypt": "*",
+    "mongoose-unique-validator": "*"
   }
 }

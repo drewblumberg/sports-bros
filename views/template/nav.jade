@@ -1,9 +1,18 @@
 div#color-bar
   .row
-    .large-9.columns
+    .large-12.columns
       h2: a(href='/') Sports Bros
+      if !user
+        ul#auth
+          li: a#login(href='#') Log In
+          li: a(href='/users/new') Sign Up
+      else
+        ul#signedIn
+          li: a(href="/users/" + user.id)= user.email
+          li
+            a(href="#", data-dropdown="drop1")
+              i.fi-widget
+            ul#drop1.f-dropdown(data-dropdown-content)
+              li: a(href="/users/" + user.id) View Profile
+              li: a(href='/logout') Log Out
 
-    .large-3.columns
-      ul#auth
-        li: a(href='#') Log In
-        li: a(href='/users/new') Sign Up

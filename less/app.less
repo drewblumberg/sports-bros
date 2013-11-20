@@ -1,10 +1,35 @@
 @base: #cccccc;
 @import "colors.less";
 @import "nav.less";
+@import "user.less";
 
 body{
   background-color: @base;
   font-family: @primary-font;
+}
+
+.error, .successful {
+  margin-top: 5px;
+  padding: 10px;
+  text-align: center;
+  color: white;
+}
+
+.error {
+  background-color: red;
+}
+
+.successful {
+  background-color: green;
+}
+
+#modalLogo {
+  display: block;
+  margin: auto;
+}
+
+#loginBtn {
+  margin-bottom: 0;
 }
 
 
