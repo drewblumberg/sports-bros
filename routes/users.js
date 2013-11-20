@@ -58,7 +58,17 @@ exports.login = function(req, res){
         }
       });
     } else {
-      res.send({status: 'User not found.'});
+      res.send({status: 'Account not found.'});
+    }
+  });
+};
+
+exports.logout = function(req, res){
+  req.session.destroy(function(err){
+    if(!err){
+      res.redirect('/');
+    } else {
+      res.send('Session could not be destroyed.');
     }
   });
 };

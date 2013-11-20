@@ -21,6 +21,7 @@ app.get('/', home.index);
 app.get('/users/new', users.new);
 app.post('/users/new', users.create);
 app.put('/login', users.login);
+app.get('/logout', users.logout);
 
 var server = require('http').createServer(app);
 server.listen(app.get('port'));

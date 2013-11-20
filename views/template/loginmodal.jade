@@ -4,6 +4,9 @@ include ../mixins/form-helper
   form#loginUser(action='/login', method='post')
     .row
       .large-12.columns
+        #modalErr
+    .row
+      .large-12.columns
         img#modalLogo(src='http://roundabout.io/assets/logo-circle.small-54d8fecb829f4071cae7a47475a54608.png')
     .row
       mixin field('large-12', 'text', 'email', 'Email')
