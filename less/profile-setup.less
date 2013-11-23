@@ -1,0 +1,83 @@
+h1.subheader {
+  text-align: center;
+}
+
+.hidden {
+  opacity: 1;
+}
+
+#profilePic {
+  width: 100%;
+  height: 200px;
+  border: 1px solid black;
+}
+
+#picUpload {
+  margin-top: 5px;
+}
+
+#profileSetup {
+  margin-top: 10px;
+  -moz-transition:opacity 1s ease-out;
+  -webkit-transition:opacity 1s ease-out;
+  -o-transition:opacity 1s ease-out;
+  transition:opacity 1s ease-out;
+
+  .active {
+    display: block;
+    opacity: 1;
+  }
+}
+
+.leagueCat {
+  padding: 15px;
+  border: 1px solid #4FF7FF;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  background-color: white;
+  margin-bottom: 10px;
+
+  img {
+    margin-top: -4px;
+  }
+
+  .rotate {
+    transform:rotate(90deg);
+    -o-transform:rotate(90deg);
+    -moz-transform:rotate(90deg);
+    -webkit-transform:rotate(90deg);
+  }
+}
+
+.team {
+  float: left;
+  padding: 3px;
+}
+
+.teamList {
+  display: none;
+  .active {
+    display: block;
+  }
+
+  button {
+    margin-top: 27px;
+    display: block;
+    width: 70px;
+  }
+}
+
+.clear {
+  clear: both;
+}
+
+.reason {
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  margin-top: 25px;
+  height: 100px;
+  width: 100%;
+  text-align: top;
+}

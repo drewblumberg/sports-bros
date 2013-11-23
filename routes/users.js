@@ -1,6 +1,7 @@
 var mongoose = require('mongoose');
 var bcrypt = require('bcrypt');
 var User = mongoose.model('User');
+var Team = mongoose.model('Team');
 // var colors = require('colors');
 // Colors
 // bold, italic, underline, inverse, yellow, cyan,
@@ -72,3 +73,18 @@ exports.logout = function(req, res){
     }
   });
 };
+
+exports.show = function(req, res){
+  User.findById(req.params.id, function(err, user){
+    if(!err){
+      Team.find(function(err, teams){
+        res.render('users/show', {status: 'ok', user: user, teams: teams});
+      });
+    } else {
+      res.send({status: 'User not found.'});
+    }
+  });
+}
+
+
+

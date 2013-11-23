@@ -1,0 +1,84 @@
+extends ../template/layout
+include ../mixins/form-helper
+
+block content
+  -if(!user.isSetup)
+    #firstTimeProfile
+      .row
+        .large-12.columns
+          h1.subheader Set up your profile to begin!
+      .row
+        .large-offset-4.large-4.columns
+          button#initSetup.button.expand.success.radius Begin Setup!
+    #profileSetup.hidden
+      .row
+        .large-3.columns
+          #profilePic
+        mixin field('large-3', 'text', 'name', 'Name', user.name)
+        mixin field('large-3', 'text', 'location', 'Location', null, 'NY, NY', true)
+        mixin field('large-3', 'text', 'birthday', 'Birthday', null, '01/01/1965')
+        .large-12.columns
+        mixin field('large-3', 'file', 'picture', null, null, null, null, 'picUpload')
+        .large-9.columns
+        .row
+          .large-12.columns
+            h1.subheader --- MY FAVORITE TEAMS ---
+        //- #pickTeams
+        //-   .row
+        //-     .large-12.columns
+        //-       - var nflTeams = [], nbaTeams = [], mlbTeams = [], nhlTeams = [];
+        //-       - each team in teams
+        //-         - if(team.league === 'nfl'){nflTeams.push(team.name);}
+        //-         - else if(team.league === 'nba'){nbaTeams.push(team.name);}
+        //-         - else if(team.league === 'mlb'){mlbTeams.push(team.name);}
+        //-         - else if(team.league === 'nhl'){nhlTeams.push(team.name);}
+        //-       - var leagues = [['nfl', nflTeams.sort()], ['nba', nbaTeams.sort()], ['mlb', mlbTeams.sort()], ['nhl', nhlTeams.sort()]]
+        //-       - each league in leagues
+        //-         .leagueCat= league[0].toUpperCase()
+        //-           img.carat(src='../images/blue-right-arrow.png')
+        //-         .teamList
+        //-           - each team in league[1]
+        //-             .team
+        //-               - var modTeam = team.toLowerCase().split(' ').join('_')
+        //-               img(class=modTeam , src='../images/' + league[0].toUpperCase() + '/lgo_' + league[0] + '_' + modTeam + '.png')
+        //-         .clear
+        .row
+          .large-12.columns
+            h1.subheader --- MY FAVORITE PLAYERS ---
+        #pickPlayers
+          .row
+            .large-3.columns
+              input(type=text).expand
+            .large-3.columns
+              select#leagueSelect
+                option(value='nfl') NFL
+                option(value='nba') NBA
+                option(value='mlb') MLB
+                option(value='nhl') NHL
+            .large-3.columns
+              button.getPlayer.button.radius.expand.small Find Player
+            .large-3.columns
+
+
+
+
+
+
+
+
+
+
+
+
+
+//- mixin field(colSize, type, name, text, value, placeholder, autofocus)
+//-   div(class='#{colSize} columns')
+//-     if text
+//-       label(for=name) #{text}:
+//-     input(value=value, type=type, name=name, placeholder=placeholder, autofocus=autofocus)
+
+
+
+
+
+
