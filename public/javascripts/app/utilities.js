@@ -40,10 +40,10 @@ function sendAjaxRequest(url, data, verb, altVerb, event, successFn){
   if(event) event.preventDefault();
 }
 
-function checkForErrors(data){
+function checkForErrors(data, msg){
   if(data.status !== 'ok'){
     $('#errorMsg').append('<div class="error">' + data.status + ' Please try again.</div>');
   } else {
-    $('#errorMsg').append('<div class="successful">Your account was created successfully! Please log in.</div>');
+    $('#errorMsg').append('<div class="successful">' + msg + '</div>');
   }
 }

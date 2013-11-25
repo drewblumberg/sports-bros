@@ -16,7 +16,7 @@ function clickRegister(e){
   var data = $form.serialize();
   console.log(data);
   sendAjaxRequest(url, data, 'post', null, e, function(data, status, jqXHR){
-    checkForErrors(data);
+    checkForErrors(data, 'Your account was created successfully! Please log in.');
   });
 
   e.preventDefault();

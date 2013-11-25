@@ -2,6 +2,9 @@ var mongoose = require('mongoose');
 var bcrypt = require('bcrypt');
 var User = mongoose.model('User');
 var Team = mongoose.model('Team');
+var __ = require('lodash');
+var path = require('path');
+var fs = require('fs');
 // var colors = require('colors');
 // Colors
 // bold, italic, underline, inverse, yellow, cyan,
@@ -84,7 +87,80 @@ exports.show = function(req, res){
       res.send({status: 'User not found.'});
     }
   });
-}
+};
+
+exports.finishSetup = function(req, res) {
+  var name = req.body.name;
+  var location = req.body.location;
+  var birthday = req.body.birthday;
+  var isSetup = req.body.isSetup;
+  User.findById(req.params.id, function(err, user){
+    if(!err){
+      user.name = name;
+      user.location = location;
+      user.birthday = birthday;
+      user.isSetup = isSetup;
+      user.save(function(err, user){
+        res.send({status: 'ok'});
+      });
+    } else {
+      res.send({status: 'User not found.'});
+    }
+  });
+};
+
+exports.saveFav = function(req, res){
+  var league = req.body.league;
+  var teamName = req.body.teamName;
+  var teamReason = req.body.teamReason;
+  console.log(req.params.id);
+  User.findById(req.params.id, function(err, user){
+    if(!err){
+      __.each(user.favTeams, function(team){
+        if(team.league === league){
+          team.teamReason = teamReason;
+          team.teamName = teamName;
+        }
+      });
+
+      user.markModified('favTeams');
+
+      user.save(function(err, user){
+        res.send({status: 'User Saved'});
+      });
+    } else {
+      res.send({status: 'No User Found'});
+    }
+  });
+};
+
+exports.upload = function(req, res){
+  var tempPath = req.body.path;
+  // var userId = req.body.userId;
+  if (tempPath.substr(tempPath.length-4) === '.png') {
+    var targetPath = path.resolve('./uploads/image.png');
+    // var targetPath = path.resolve('./uploads/' + userId + '/image.png');
+    console.log(targetPath);
+    fs.rename(tempPath, targetPath, function(err) {
+      if(!err){
+        console.log("Upload completed!");
+        res.send({status: 'Saved!'});
+      } else {
+        res.send({status: 'Failed!', err: err});
+      }
+    });
+  } else {
+    fs.unlink(tempPath, function(){
+      console.error("Only .png files are allowed!");
+      res.send({status: 'File not allowed'});
+    });
+  }
+};
+
+exports.getProfilePic = function(req, res){
+  var userId = req.body.id;
+  res.sendfile(path.resolve('./uploads/' + userId + '/image.png'));
+};
 
 
 

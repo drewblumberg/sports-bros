@@ -22,8 +22,11 @@ app.get('/', home.index);
 app.get('/users/new', users.new);
 app.post('/users/new', users.create);
 app.get('/users/:id', users.show);
+app.post('/upload', users.upload);
 app.put('/login', users.login);
 app.get('/logout', users.logout);
+app.put('/users/:id/finishSetup', users.finishSetup);
+app.put('/users/:id/newFavTeam', users.saveFav);
 app.post('/teams/:league', teams.getTeams);
 
 var server = require('http').createServer(app);
