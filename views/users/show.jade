@@ -56,19 +56,27 @@ block content
             .large-3.columns
               #profilePic
               ul#userInfo
+                - if (currentUserId !== user.id)
+                  li: button#bro.button.small.radius.success Bro Up!
                 li= user.name
                 li= user.location
                   - var age = Math.floor((new Date() - user.birthday) / 1000 / 60 / 60 / 24 / 365)
                 li= 'Age ' + age
             .large-6.columns
               #userTeams
-                -each team in user.favTeams
-                  -if(team.teamName)
+                - var userTeams = [];
+                - each team in user.favTeams
+                  - if(team.teamName)
+                    - userTeams.push(team.teamName.split('_').join(' '))
                     .teamShow
                       img(src='../images/' + team.league.toUpperCase() + '/lgo_' + team.league + '_' + team.teamName + '.png')
                       span.teamShowReason= '"' + team.teamReason +  '"'
             .large-3.columns
-
+              #teamStats
+                h5.subheader ESPN.com Headlines
+              ul.headlines
+                - each link in dataScraped
+                  li: a(href=link[1])= link[0]
 
 
         //- .row

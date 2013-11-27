@@ -8,6 +8,9 @@ div#color-bar
           li: a(href='/users/new') Sign Up
       else
         ul#signedIn
+          - if(currentUserId && currentUserEmail)
+            - user.id = currentUserId
+            - user.email = currentUserEmail
           li: a(href="/users/" + user.id)= user.email
           li
             a(href="#", data-dropdown="drop1")

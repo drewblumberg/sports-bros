@@ -5,6 +5,7 @@ var Team = mongoose.model('Team');
 var __ = require('lodash');
 var path = require('path');
 var fs = require('fs');
+var YQL = require('yql');
 // var colors = require('colors');
 // Colors
 // bold, italic, underline, inverse, yellow, cyan,
@@ -78,14 +79,29 @@ exports.logout = function(req, res){
 };
 
 exports.show = function(req, res){
-  User.findById(req.params.id, function(err, user){
-    if(!err){
-      Team.find(function(err, teams){
-        res.render('users/show', {status: 'ok', user: user, teams: teams});
+  new YQL.exec('select * from data.html.cssselect where url="http://www.espn.com" and css=".headlines"', function(response) {
+    if(response.query.results.results){
+      var dataScrapedNFL = response.query.results.results.ul.li;
+      console.log(dataScrapedNFL);
+      var sportsLinks = []
+      __.each(dataScrapedNFL, function(link){
+        var headline = link.a.content;
+        var href = link.a.href;
+        sportsLinks.push([headline, href]);
       });
-    } else {
-      res.send({status: 'User not found.'});
     }
+
+    User.findById(req.params.id, function(err, user){
+      if(!err){
+        Team.find(function(err, teams){
+          var currentUserId = req.session.userId;
+          var currentUserEmail = req.session.email;
+          res.render('users/show', {status: 'ok', user: user, teams: teams, dataScraped: sportsLinks, currentUserId: currentUserId, currentUserEmail: currentUserEmail});
+        });
+      } else {
+        res.send({status: 'User not found.'});
+      }
+    });
   });
 };
 
@@ -161,6 +177,10 @@ exports.getProfilePic = function(req, res){
   var userId = req.body.id;
   res.sendfile(path.resolve('./uploads/' + userId + '/image.png'));
 };
+
+exports.scrape = function(req, res){
+
+}
 
 
 
