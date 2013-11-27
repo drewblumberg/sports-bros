@@ -9,5 +9,7 @@
  */
 
 exports.index = function(req, res){
-  res.render('home/index', {title: 'Sports Bros'});
+  var currentUserId = req.session.userId;
+  var currentUserEmail = req.session.email;
+  res.render('home/index', {title: 'Sports Bros', currentUserId: currentUserId, currentUserEmail: currentUserEmail});
 };

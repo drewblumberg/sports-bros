@@ -21,6 +21,7 @@ require('./config').initialize(app, RedisStore);
 app.get('/', home.index);
 app.get('/users/new', users.new);
 app.post('/users/new', users.create);
+app.get('/users/index', users.index);
 app.get('/users/:id', users.show);
 app.post('/upload', users.upload);
 app.put('/login', users.login);

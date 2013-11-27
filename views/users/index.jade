@@ -1,0 +1,15 @@
+extends ../template/layout
+
+block content
+  .row
+    .large-12.columns
+      - each user in users
+        a.user(href='/users/' + user.id)
+          p= user.name
+            - each team in user.favTeams
+              - if(team.teamName)
+                - var properTeamName = []
+                - var allNames = team.teamName.split('_')
+                - each name in allNames
+                  - properTeamName.push(name.charAt(0).toUpperCase() + name.slice(1))
+                div.userFavTeam= properTeamName.join(' ')

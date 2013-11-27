@@ -20,6 +20,16 @@ exports.new = function(req, res){
   res.render('users/new', {title: 'Sports Bros | New User'});
 };
 
+exports.index = function(req, res){
+  User.find(function(err, users){
+    if(!err){
+      var currentUserId = req.session.userId;
+      var currentUserEmail = req.session.email;
+      res.render('users/index', {title: 'Sports Bros | All Bros', users: users, currentUserEmail: currentUserEmail, currentUserId: currentUserId});
+    }
+  });
+};
+
 exports.create = function(req, res){
   var user = new User();
   user.email = req.body.email;
@@ -177,10 +187,6 @@ exports.getProfilePic = function(req, res){
   var userId = req.body.id;
   res.sendfile(path.resolve('./uploads/' + userId + '/image.png'));
 };
-
-exports.scrape = function(req, res){
-
-}
 
 
 

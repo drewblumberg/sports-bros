@@ -2,21 +2,19 @@ div#color-bar
   .row
     .large-12.columns
       h2: a(href='/') Sports Bros
-      if !user
+      if !currentUserId
         ul#auth
           li: a#login(href='#') Log In
           li: a(href='/users/new') Sign Up
       else
         ul#signedIn
-          - if(currentUserId && currentUserEmail)
-            - user.id = currentUserId
-            - user.email = currentUserEmail
-          li: a(href="/users/" + user.id)= user.email
+          li: a(href="/users/" + currentUserId)= currentUserEmail
           li
             a(href="#", data-dropdown="drop1")
               i.fi-widget
             ul#drop1.f-dropdown(data-dropdown-content)
-              li: a(href="/users/" + user.id) View Profile
-              li: a(href="/users/" + user.id + '/edit') Update Profile
+              li: a(href="/users/" + currentUserId) View Profile
+              li: a(href="/users/" + currentUserId + '/edit') Update Profile
+              li: a(href="/users/index") All Bros
               li: a(href='/logout')#logout Log Out
 

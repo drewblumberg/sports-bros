@@ -22,6 +22,10 @@ function formatCurrency(number){
   return '$' + number.toFixed(2);
 }
 
+function cFL(string){
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
 function sendAjaxRequest(url, data, verb, altVerb, event, successFn){
   var options = {};
   options.url = url;

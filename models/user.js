@@ -10,6 +10,8 @@ var User = mongoose.Schema({
   birthday: {type: Date},
   isSetup: {type: Boolean, default: false},
   favTeams: [{}],
+  pendingFriends: [{type: mongoose.Schema.Types.ObjectId, ref: 'User'}],
+  friends: [{type: mongoose.Schema.Types.ObjectId, ref: 'Relationship'}],
   createdAt: {type: Date, default: Date.now}
 });
 
