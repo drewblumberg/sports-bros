@@ -1,0 +1,17 @@
+extends ../template/layout
+
+block content
+  .row
+    .large-12.columns
+      - if(pendingFriends.length > 0)
+        ul#pendingBroList
+          - each friend in pendingFriends
+            li= friend.name + ' from ' + friend.location + ' wants to be bros. Favorite teams are: '
+              - each team in friend.favTeams
+                - if(team.teamName)
+                  img.smallTeam(src='../../images/' + team.league.toUpperCase() + '/lgo_' + team.league + '_' + team.teamName + '.png')
+              button(data-id=friend.id).accept.button.radius.small.success Accept
+              button(data-id=friend.id).decline.button.radius.small.alert Decline
+
+      - else
+        p You have no pending bros. Sorry :(

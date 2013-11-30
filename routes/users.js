@@ -6,15 +6,6 @@ var __ = require('lodash');
 var path = require('path');
 var fs = require('fs');
 var YQL = require('yql');
-// var colors = require('colors');
-// Colors
-// bold, italic, underline, inverse, yellow, cyan,
-// white, magenta, green, red, grey, blue, rainbow,
-// zebra, random
-
-/*
- * GET /
- */
 
 exports.new = function(req, res){
   res.render('users/new', {title: 'Sports Bros | New User'});
@@ -101,12 +92,18 @@ exports.show = function(req, res){
       });
     }
 
-    User.findById(req.params.id, function(err, user){
+    User.findById(req.params.id).populate('friends').exec(function(err, user){
       if(!err){
+        var allBros = [];
+        __.each(user.friends, function(bro){
+          allBros.push(String(bro.friend1));
+          allBros.push(String(bro.friend2));
+        });
         Team.find(function(err, teams){
           var currentUserId = req.session.userId;
           var currentUserEmail = req.session.email;
-          res.render('users/show', {status: 'ok', user: user, teams: teams, dataScraped: sportsLinks, currentUserId: currentUserId, currentUserEmail: currentUserEmail});
+          var areBros = __.contains(allBros, String(currentUserId), 0);
+          res.render('users/show', {status: 'ok', user: user, teams: teams, dataScraped: sportsLinks, currentUserId: currentUserId, currentUserEmail: currentUserEmail, areBros: areBros});
         });
       } else {
         res.send({status: 'User not found.'});
@@ -186,6 +183,79 @@ exports.upload = function(req, res){
 exports.getProfilePic = function(req, res){
   var userId = req.body.id;
   res.sendfile(path.resolve('./uploads/' + userId + '/image.png'));
+};
+
+exports.createPendingFriend = function(req, res){
+  var id = req.session.userId
+  User.findById(req.body.id, function(err, user){
+    if(!err){
+      user.pendingFriends.push(id);
+      user.save(function(err){
+        if(!err){
+          res.send({status: 'ok'});
+        } else {
+          res.send({status: 'Error in saving'});
+        }
+      })
+    }
+  });
+};
+
+exports.pendingFriends = function(req, res){
+  var currentUserId = req.session.userId;
+  var currentUserEmail = req.session.email;
+
+  User.findById(req.params.id).populate('pendingFriends').exec(function(err, user){
+    if(!err){
+      console.log(user);
+      res.render('users/pending', {title: 'Sports Bros | Pending Friends', pendingFriends: user.pendingFriends, currentUserId: currentUserId, currentUserEmail: currentUserEmail});
+    } else {
+      res.send({status: 'No users'});
+    }
+  });
+};
+
+exports.declineBro = function(req, res){
+  var id = req.body.id;
+
+  User.findById(req.session.userId, function(err, user){
+    if(!err){
+      console.log(user.pendingFriends);
+      user.pendingFriends = __.filter(user.pendingFriends, function(friend){return friend === id; });
+      console.log(user.pendingFriends);
+      user.save(function(err){
+        if(!err){
+          res.send({status: 'ok'});
+        } else {
+          res.send({status: 'error'});
+        }
+      });
+    } else {
+      res.send({status: 'User not found'});
+    }
+  });
+};
+
+exports.addBroship = function(req, res){
+  var id;
+  !req.body.id ? id = req.session.userId : id = req.body.id;
+
+  User.findById(id, function(err, user){
+    if(!err){
+      var temp = user.friends;
+      temp.push(req.body.relId);
+      user.friends = temp;
+      user.save(function(err){
+        if(!err){
+          res.send({status: 'ok'});
+        } else {
+          res.send({status: 'User could not be updated'});
+        }
+      });
+    } else {
+      res.send({status: 'User not found.'});
+    }
+  });
 };
 
 

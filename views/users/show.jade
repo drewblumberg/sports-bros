@@ -51,18 +51,20 @@ block content
   -else
     .row
       .large-12.columns
-        #profileContainer
+        #profileContainer(data-id= user.id)
           .row
             .large-3.columns
               #profilePic
               ul#userInfo
-                - if (currentUserId !== user.id)
-                  li: button#bro.button.small.radius.success Bro Up!
+                - if (currentUserId !== user.id && !areBros)
+                  li: a#bro.button.small.radius.success Bro Up!
+                - else if (currentUserId !== user.id && areBros)
+                  li: a(disabled=true).button.small.radius.success Bros
                 li= user.name
                 li= user.location
                   - var age = Math.floor((new Date() - user.birthday) / 1000 / 60 / 60 / 24 / 365)
                 li= 'Age ' + age
-            .large-6.columns
+            .large-5.columns
               #userTeams
                 - var userTeams = [];
                 - each team in user.favTeams
@@ -71,51 +73,9 @@ block content
                     .teamShow
                       img(src='../images/' + team.league.toUpperCase() + '/lgo_' + team.league + '_' + team.teamName + '.png')
                       span.teamShowReason= '"' + team.teamReason +  '"'
-            .large-3.columns
+            .large-4.columns
               #teamStats
                 h5.subheader ESPN.com Headlines
               ul.headlines
                 - each link in dataScraped
                   li: a(href=link[1], target='_blank')= link[0]
-
-
-        //- .row
-        //-   .large-12.columns
-        //-     h1.subheader --- MY FAVORITE PLAYERS ---
-        //- #pickPlayers
-        //-   .row
-        //-     .large-3.columns
-        //-       input(type=text).expand
-        //-     .large-3.columns
-        //-       select#leagueSelect
-        //-         option(value='nfl') NFL
-        //-         option(value='nba') NBA
-        //-         option(value='mlb') MLB
-        //-         option(value='nhl') NHL
-        //-     .large-3.columns
-        //-       button.getPlayer.button.radius.expand.small Find Player
-        //-     .large-3.columns
-
-
-
-
-
-
-
-
-
-
-
-
-
-//- mixin field(colSize, type, name, text, value, placeholder, autofocus)
-//-   div(class='#{colSize} columns')
-//-     if text
-//-       label(for=name) #{text}:
-//-     input(value=value, type=type, name=name, placeholder=placeholder, autofocus=autofocus)
-
-
-
-
-
-
