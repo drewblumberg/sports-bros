@@ -99,11 +99,16 @@ exports.show = function(req, res){
           allBros.push(String(bro.friend1));
           allBros.push(String(bro.friend2));
         });
+        var allPendingBros = [];
+        __.each(user.pendingFriends, function(bro2){
+          allPendingBros.push(String(bro2));
+        });
         Team.find(function(err, teams){
           var currentUserId = req.session.userId;
           var currentUserEmail = req.session.email;
           var areBros = __.contains(allBros, String(currentUserId), 0);
-          res.render('users/show', {status: 'ok', user: user, teams: teams, dataScraped: sportsLinks, currentUserId: currentUserId, currentUserEmail: currentUserEmail, areBros: areBros});
+          var arePendingBros = __.contains(allPendingBros, String(currentUserId), 0);
+          res.render('users/show', {status: 'ok', user: user, teams: teams, dataScraped: sportsLinks, currentUserId: currentUserId, currentUserEmail: currentUserEmail, areBros: areBros, arePendingBros: arePendingBros});
         });
       } else {
         res.send({status: 'User not found.'});

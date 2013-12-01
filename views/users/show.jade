@@ -56,8 +56,10 @@ block content
             .large-3.columns
               #profilePic
               ul#userInfo
-                - if (currentUserId !== user.id && !areBros)
+                - if (currentUserId !== user.id && !areBros && !arePendingBros)
                   li: a#bro.button.small.radius.success Bro Up!
+                - else if (currentUserId !== user.id && arePendingBros)
+                  li: button.button.small.radius(disabled=true) Pending Bros
                 - else if (currentUserId !== user.id && areBros)
                   li: a(disabled=true).button.small.radius.success Bros
                 li= user.name

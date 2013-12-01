@@ -37,7 +37,7 @@ function addBro(e){
 
   sendAjaxRequest('/users/createPendingFriend', {id: userId}, 'post', 'put', e, function(data){
     if(data.status === 'ok'){
-
+      changeBroButton($button);
     } else {
       alert('There was an error adding a pending friend.');
     }
@@ -90,14 +90,19 @@ function acceptBroship(e){
 }
 
 function broshipFinished($button){
-  $button.next().after('<button disabled=true class="button radius small success">Accepted!</button>')
+  $button.next().after('<button disabled=true class="button radius small success">Accepted!</button>');
   $button.next().remove();
   $button.remove();
 }
 
 function broshipRejected($button){
-  $button.next().after('<button disabled=true class="button radius small alert">Declined!</button>')
+  $button.next().after('<button disabled=true class="button radius small alert">Declined!</button>');
   $button.next().remove();
+  $button.remove();
+}
+
+function changeBroButton($button){
+  $button.after('<button disabled=true class="button radius small">Pending Bro</button>');
   $button.remove();
 }
 
