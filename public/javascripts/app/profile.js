@@ -15,6 +15,8 @@ function finishSetup(e){
 
       $('#profileSetup').empty();
       $('#profileSetup').append('<div class="row"><div class="large-4 large-offset-4 columns"><a class="button radius success expand" href="/users/' + userId + '" >Go To Profile</a></div></div>');
+    } else {
+      checkForErrors(data);
     }
   });
 }

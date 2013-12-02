@@ -1,0 +1,23 @@
+extends ../template/layout
+include ../mixins/form-helper
+
+block content
+  .row
+    .large-offset-3.large-6.columns
+      h1 Edit Profile
+      form#editUser(action='/users/' + user.id + '/update', method='post')
+        .row
+          mixin field('large-12', 'text', 'name', 'Name', user.name, null, true)
+        .row
+          mixin field('large-12', 'text', 'email', 'Email', user.email)
+        .row
+          mixin field('large-12', 'text', 'location', 'Location', user.location)
+        .row
+          mixin field('large-12', 'text', 'birthday', 'Birthday', birthday)
+        .row
+          mixin field('large-12', 'password', 'password', 'Password')
+        .row
+          mixin field('large-12', 'password', 'passwordconfirmation', 'Password Confirmation')
+        .row
+          .large-offset-8.large-4.columns
+            button#updateUser(value = "submit", disabled = true).button.success.radius.expand.inactive Edit User

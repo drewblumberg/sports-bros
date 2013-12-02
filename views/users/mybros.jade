@@ -1,0 +1,15 @@
+extends ../template/layout
+
+block content
+  .row
+    .large-12.columns
+      - if(allBros.length > 0)
+        ul#broList
+          - each friend in allBros
+            li= friend.name + ' from ' + friend.location + '. Favorite teams are: '
+              - each team in friend.favTeams
+                - if(team.teamName)
+                  img.smallTeam(src='../../images/' + team.league.toUpperCase() + '/lgo_' + team.league + '_' + team.teamName + '.png')
+              a(href='/users/' + friend.id): button.button.small.radius.success Go To Profile
+      - else
+        p You have no bros. Sorry :(

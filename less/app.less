@@ -5,6 +5,10 @@
 @import "profile-setup.less";
 @import "profile.less";
 
+html, body {
+  height: 100%;
+}
+
 body{
   background-color: @base;
   font-family: @primary-font;
@@ -32,6 +36,37 @@ body{
 
 #loginBtn {
   margin-bottom: 0;
+}
+
+#home {
+  background: url('../images/homebkg.jpg') no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  min-height: 100%;
+  min-width: 100%;
+}
+
+#welcomeText {
+  font-size: 70px;
+  font-family: @primary-font;
+  font-weight: bold;
+  color: white;
+  margin-top: 115px;
+  text-align: center;
+}
+
+#allWelcomeText {
+  background-color: rgba(0,0,0,0.5);
+}
+
+.subWelcomeText {
+  font-size: 35px;
+  font-family: @primary-font;
+  color: white;
+  margin-top: 43px;
+  text-align: center;
 }
 
 

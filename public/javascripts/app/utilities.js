@@ -10,6 +10,19 @@ function getValue(selector, fn){
   return value;
 }
 
+function passwordCheck(e){
+  var pass = $('input[name="password"]').val();
+  var conf = $(this).val();
+  var formName = 'form#' + $(this).parent().parent().parent().attr('id');
+  var $button = $(formName + ' button');
+
+  if(pass === conf){
+    $button.prop('disabled', false);
+  } else {
+    $button.prop('disabled', true);
+  }
+}
+
 function parseUpperCase(string){
   return string.toUpperCase();
 }
@@ -44,8 +57,12 @@ function sendAjaxRequest(url, data, verb, altVerb, event, successFn){
   if(event) event.preventDefault();
 }
 
-function checkForErrors(data, msg){
-  if(data.status !== 'ok'){
+function checkForErrors(data, msg, redirectPath){
+  $('#errorMsg').empty();
+
+  if(redirectPath && data.status === 'ok') {
+    window.location.replace(redirectPath);
+  } else if(data.status !== 'ok'){
     $('#errorMsg').append('<div class="error">' + data.status + ' Please try again.</div>');
   } else {
     $('#errorMsg').append('<div class="successful">' + msg + '</div>');

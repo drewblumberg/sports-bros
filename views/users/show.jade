@@ -13,19 +13,16 @@ block content
     #profileSetup.hidden(data-userId=user.id)
       .row
         .large-3.columns
-          img#profilePic
+          img#setupProfilePic
         mixin field('large-3', 'text', 'name', 'Name', user.name)
         mixin field('large-3', 'text', 'location', 'Location', null, 'NY, NY', true)
         mixin field('large-3', 'text', 'birthday', 'Birthday', null, '01/01/1965')
         .large-12.columns
         mixin field('large-3', 'file', 'picture', null, null, null, null, 'picUpload')
         .large-9.columns
-        //- .row
-          //- .large-12.columns
-            //- button#savePic.button.small.success.radius Save Pic
         .row
           .large-12.columns
-            h1.subheader --- MY FAVORITE TEAMS ---
+            h1.subheader PICK YOUR FAVORITE TEAMS
         #pickTeams
           .row
             .large-12.columns
@@ -80,4 +77,4 @@ block content
                 h5.subheader ESPN.com Headlines
               ul.headlines
                 - each link in dataScraped
-                  li: a(href=link[1], target='_blank')= link[0]
+                  li: a(href=link[1], target='_blank' class='espnLink')= link[0]

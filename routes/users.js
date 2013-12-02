@@ -6,6 +6,7 @@ var __ = require('lodash');
 var path = require('path');
 var fs = require('fs');
 var YQL = require('yql');
+var moment = require('moment');
 
 exports.new = function(req, res){
   res.render('users/new', {title: 'Sports Bros | New User'});
@@ -117,6 +118,48 @@ exports.show = function(req, res){
   });
 };
 
+exports.edit = function(req, res){
+  var currentUserId = req.session.userId;
+  var currentUserEmail = req.session.email;
+  var name = req.body.name;
+  var location = req.body.location;
+  var birthday = req.body.birthday;
+  User.findById(currentUserId, function(err, user){
+    if(user.birthday){
+      var birthday = moment(user.birthday).format('L');
+    }
+    res.render('users/edit', {title: 'Sports Bros | Edit User', birthday: birthday, currentUserId: currentUserId, currentUserEmail: currentUserEmail});
+  })
+};
+
+exports.update = function(req, res){
+  User.findById(req.params.id, function(err, user){
+    if(!err){
+      user.email = req.body.email;
+      user.name = req.body.name;
+      user.location = req.body.location;
+      user.birthday = req.body.birthday;
+
+      if (req.body.password === null){
+        res.send({status: 'Please enter a password.'});
+      } else if(req.body.password !== req.body.passwordconfirmation) {
+        res.send({status: 'Nice try. Password Confirmation needs to be the same as the password.'})
+      } else {
+        bcrypt.hash(req.body.password, 10, function(err, hash){
+          user.password = hash;
+          user.save(function(err, user){
+            if(err){
+              res.send({status: err.message});
+            } else {
+              res.send({status: 'ok'});
+            }
+          });
+        });
+      }
+    }
+  });
+};
+
 exports.finishSetup = function(req, res) {
   var name = req.body.name;
   var location = req.body.location;
@@ -129,7 +172,11 @@ exports.finishSetup = function(req, res) {
       user.birthday = birthday;
       user.isSetup = isSetup;
       user.save(function(err, user){
-        res.send({status: 'ok'});
+        if(!err){
+          res.send({status: 'ok'});
+        } else {
+          res.send({status: 'Validation failed'});
+        }
       });
     } else {
       res.send({status: 'User not found.'});
@@ -212,8 +259,31 @@ exports.pendingFriends = function(req, res){
 
   User.findById(req.params.id).populate('pendingFriends').exec(function(err, user){
     if(!err){
-      console.log(user);
-      res.render('users/pending', {title: 'Sports Bros | Pending Friends', pendingFriends: user.pendingFriends, currentUserId: currentUserId, currentUserEmail: currentUserEmail});
+      res.render('users/pending', {title: 'Sports Bros | Pending Bros', pendingFriends: user.pendingFriends, currentUserId: currentUserId, currentUserEmail: currentUserEmail});
+    } else {
+      res.send({status: 'No users'});
+    }
+  });
+};
+
+exports.myBros = function(req, res){
+  var currentUserId = req.session.userId;
+  var currentUserEmail = req.session.email;
+
+  User.findById(req.params.id).populate('friends').exec(function(err, user){
+    if(!err){
+      var options = { path: 'friends.friend1 friends.friend2', model: 'User'};
+      User.populate(user, options, function(err, users){
+        var allBros = [];
+        __.each(users.friends, function(bro){
+          if(bro.friend1.id !== currentUserId){
+            allBros.push(bro.friend1);
+          } else if(bro.friend2.id !== currentUserId){
+            allBros.push(bro.friend2);
+          }
+        });
+        res.render('users/mybros', {title: 'Sports Bros | My Bros', allBros: allBros, currentUserId: currentUserId, currentUserEmail: currentUserEmail});
+      });
     } else {
       res.send({status: 'No users'});
     }
@@ -225,9 +295,7 @@ exports.declineBro = function(req, res){
 
   User.findById(req.session.userId, function(err, user){
     if(!err){
-      console.log(user.pendingFriends);
-      user.pendingFriends = __.filter(user.pendingFriends, function(friend){return friend === id; });
-      console.log(user.pendingFriends);
+      user.pendingFriends = __.filter(user.pendingFriends, function(friend){return String(friend) !== String(id); });
       user.save(function(err){
         if(!err){
           res.send({status: 'ok'});

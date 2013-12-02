@@ -16,8 +16,10 @@ function htmlUpdateLoginStatus(result){
     $ul.removeAttr('id').attr('id', 'signedIn');
     $ul.append('<li><a href="/users/' + result.id + '">' + result.email + '</a></li>');
 
-    var hiddenUl = '<ul id="drop1" class="f-dropdown" data-dropdown-content><li><a href="/users/' + result.id + '">View Profile</a></li><li><a href="/users/' + result.id + '/edit">Update Profile</a></li><li><a href="/users/index">All Bros</a></li><li><a href="/logout" id="logout">Logout</a></li></ul>'
+    var hiddenUl = '<ul id="drop1" class="f-dropdown" data-dropdown-content><li><a href="/users/' + result.id + '">View Profile</a></li><li><a href="/users/' + result.id + '/edit">Update Profile</a></li><li><a href="/users/' + result.id + '/pending">Pending Bros</a></li><li><a href="/users/' + result.id + '/mybros">My Bros</a></li><li><a href="/users/index">All Bros</a></li><li><a href="/logout" id="logout">Logout</a></li></ul>'
     $ul.append('<li><a href="#" data-dropdown="drop1"><i class="fi-widget"></i></a>' + hiddenUl + '</li>');
+
+    window.location.replace('/users/' + result.id);
   } else {
     $('#modalErr').empty();
     $('#modalErr').append('<div class="error">' + result.status + '</div>');
