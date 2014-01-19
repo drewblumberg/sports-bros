@@ -19,6 +19,7 @@
     "require-dir": "*",
     "bcrypt": "*",
     "mongoose-unique-validator": "*",
-    "yql": "*"
+    "yql": "*",
+    "redis": "*"
   }
 }
