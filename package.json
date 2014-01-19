@@ -20,6 +20,7 @@
     "bcrypt": "*",
     "mongoose-unique-validator": "*",
     "yql": "*",
-    "redis": "*"
+    "redis": "*",
+    "hiredis": "*"
   }
 }
