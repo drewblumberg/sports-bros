@@ -19,8 +19,6 @@
     "require-dir": "*",
     "bcrypt": "*",
     "mongoose-unique-validator": "*",
-    "yql": "*",
-    "hiredis": "0.1.10",
-    "redis": "0.6.0"
+    "yql": "*"
   }
 }
