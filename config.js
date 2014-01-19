@@ -14,11 +14,24 @@ exports.initialize = function(app, RedisStore){
   app.use(express.static(path.join(__dirname, 'public')));
   app.use('/less', less(__dirname + '/less', { compress: true }));
   app.use(express.cookieParser());
-  app.use(express.session({
-    store : new RedisStore({host: 'localhost', port: 6379}),
+  if (process.env.REDISTOGO_URL){
+    app.use(express.session({
+    store: new RedisStore({
+      host: app.set('redisHost'),
+      port: app.set('redisPort'),
+      db: app.set('redisDb'),
+      pass: app.set('redisPass')
+    }),
     secret: 'change-this-to-a-super-secret-message',
     cookie: { maxAge: 60 * 60 * 1000 * 24 }
-  }));
+    }));
+  } else {
+    app.use(express.session({
+    store : new RedisStore({host: 'localhost', port: 6379}),  
+    secret: 'change-this-to-a-super-secret-message',
+    cookie: { maxAge: 60 * 60 * 1000 * 24 }
+    }));
+  }  
   app.use(middleware.findUser);
   app.use(app.router);
 

@@ -12,12 +12,16 @@ var teams = require('./routes/teams');
 var relationships = require('./routes/relationships');
 
 var app = express();
+var RedisStore = require('connect-redis')(express); 
 if (process.env.REDISTOGO_URL) {
     var rtg   = require("url").parse(process.env.REDISTOGO_URL);
-    var RedisStore = require("redis").createClient(rtg.port, rtg.hostname);
-    RedisStore.auth(rtg.auth.split(":")[1]);
+    var redisAuth = rtg.auth.split(":");
+    app.set('redisHost', rtg.hostname);
+    app.set('redisPort', rtg.port);
+    app.set('redisDb', redisAuth[0]);
+    app.set('redisPass', redisAuth[1]);
 } else {
-  var RedisStore = require('connect-redis')(express);  
+   
 }
 mongoose.connect('mongodb://drewblumberg:1234@alex.mongohq.com:10041/sports-bros');
 
