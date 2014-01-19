@@ -13,7 +13,7 @@ var relationships = require('./routes/relationships');
 
 var app = express();
 var RedisStore = require('connect-redis')(express);
-mongoose.connect('mongodb://localhost/sports-bros');
+mongoose.connect('mongodb://drewblumberg:1234@alex.mongohq.com:10041/sports-bros');
 
 // configure express
 require('./config').initialize(app, RedisStore);
